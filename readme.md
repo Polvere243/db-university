@@ -30,3 +30,10 @@ SELECT `head_of_department`, `name` FROM `departments`;
 -- 3 Selezionare tutti gli studenti il cui nome inizia per "E" (373)
 SELECT * FROM `students` WHERE `name` LIKE 'E%';
 Buon divertimento e buon weekend! :faccia_leggermente_sorridente:
+
+
+ ciao ragazzi!
+Esercizio di oggi: DB University - Join
+nome repo: db-university
+Eseguite le query del file allegato sullo stesso database della volta scorsa.
+Le modalità di consegna sono le stesse di Venerdì! Buon divertimento! (modificato) 
