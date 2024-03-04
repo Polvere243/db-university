@@ -44,7 +44,12 @@ JOIN `departments` AS DEP
 On DEG.`department_id` = DEP.`id`
 -- GROUP BY 'cognome' ASC;
 -- 5. Selezionare tutti i corsi di laurea con i relativi corsi e insegnanti
-
+SELECT * 
+FROM `degrees` AS DEG
+JOIN `courses` AS C
+ON DEG.`id` = C.`degree_id`
+JOIN `course_teacher` AS CT
+ON CT.`teacher_id` = T.`id`
 -- 6. Selezionare tutti i docenti che insegnano nel Dipartimento di Matematica (54)
 
 /* 7. BONUS: Selezionare per ogni studente quanti tentativi d’esame ha sostenuto per
