@@ -29,7 +29,7 @@ SELECT AVG(`vote`) AS `average_vote` FROM `exam_student` GROUP BY `exam_id`;
 SELECT COUNT(`name`) AS `total_degrees` FROM `degrees` GROUP BY `department_id`;
 
 -- 1. Selezionare tutti gli studenti iscritti al Corso di Laurea in Economia
-
+SELECT S.`name` AS 'Nome', S.`surname` AS 'Cognome' FROM `students` AS S JOIN `degrees` AS DEG ON S.`id` = DEG.`id` WHERE DEG.`name` = 'Corso di Laurea in Economia';
 -- 2. Selezionare tutti i Corsi di Laurea del Dipartimento di Neuroscienze
 
 -- 3. Selezionare tutti i corsi in cui insegna Fulvio Amato (id=44)
