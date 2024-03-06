@@ -29,28 +29,40 @@ SELECT AVG(`vote`) AS `average_vote` FROM `exam_student` GROUP BY `exam_id`;
 SELECT COUNT(`name`) AS `total_degrees` FROM `degrees` GROUP BY `department_id`;
 
 -- 1. Selezionare tutti gli studenti iscritti al Corso di Laurea in Economia
-SELECT S.`name` AS 'Nome', S.`surname` AS 'Cognome' FROM `students` AS S JOIN `degrees` AS DEG ON S.`id` = DEG.`id` WHERE DEG.`name` = 'Corso di Laurea in Economia';
+SELECT S.`name` AS 'Nome', S.`surname` AS 'Cognome' FROM `students` AS S JOIN `degrees` AS DEG ON S.`degree_id` = DEG.`id` WHERE DEG.`name` = 'Corso di Laurea in Economia';
 -- 2. Selezionare tutti i Corsi di Laurea del Dipartimento di Neuroscienze
-SELECT DEG.`name` FROM `degrees` AS DEG JOIN `departments` AS DEP ON DEG.`id` = DEP.`id` WHERE DEP.`name` = 'Dipartimento di Neuroscienze';
+SELECT DEG.`name` FROM `degrees` AS DEG JOIN `departments` AS DEP ON DEG.`department_id` = DEP.`id` WHERE DEP.`name` = 'Dipartimento di Neuroscienze';
 -- 3. Selezionare tutti i corsi in cui insegna Fulvio Amato (id=44)
 SELECT C.`name` AS 'Nome_corso' FROM `courses` AS C JOIN `course_teacher` AS CT ON C.`id` = CT.`teacher_id` JOIN `teachers` AS T ON CT.`teacher_id` = T.`id` WHERE T.`name` = 'Fulvio' AND T.`surname` = 'Amato';
 /* 4. Selezionare tutti gli studenti con i dati relativi al corso di laurea a cui sono iscritti e il
 relativo dipartimento, in ordine alfabetico per cognome e nome */
-SELECT S.`name` AS 'nome', S.`surname` AS 'cognome', DEG*
+SELECT S.`name` AS 'nome', S.`surname` AS 'cognome', DEG.* AS 'corso_laurea', DEP.`name` AS 'nome_dipartimento'
 FROM `students` AS S
 JOIN `degrees` AS DEG
 ON S.`degree_id` = DEG.`id`
 JOIN `departments` AS DEP
 On DEG.`department_id` = DEP.`id`
--- GROUP BY 'cognome' ASC;
+GROUP BY S.`cognome`, S.`surname` ASC;
 -- 5. Selezionare tutti i corsi di laurea con i relativi corsi e insegnanti
 SELECT * 
 FROM `degrees` AS DEG
 JOIN `courses` AS C
 ON DEG.`id` = C.`degree_id`
 JOIN `course_teacher` AS CT
-ON CT.`teacher_id` = T.`id`
+ON CT.`course_id` = C.`id`;
+JOIN `teachers` AS T
+ON CT.`teacher_id` = T.`id`;
 -- 6. Selezionare tutti i docenti che insegnano nel Dipartimento di Matematica (54)
-
+SELECT DISTINCT T.name, T.surname
+FROM `course_teacher` AS CT
+JOIN `teachers` as T
+ON CT.`teacher_id` = T.`id`
+JOIN `courses` AS C
+ON `CT`.`course_id` = `C`.`id`
+JOIN `degrees` AS DEG
+ON C.`degree_id` = DEG.`id`
+JOIN `departments` AS DEP
+ON `DEG`.`department_id` = `DEP`.`id`
+WHERE `DEP`.`name` = 'Dipartimento di Matematica';
 /* 7. BONUS: Selezionare per ogni studente quanti tentativi d’esame ha sostenuto per
 superare ciascuno dei suoi esami */
